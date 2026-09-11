@@ -53,7 +53,6 @@
             flex-direction: column;
         }
 
-        /* Auth Screen */
         #auth-screen {
             display: flex;
             flex-direction: column;
@@ -108,7 +107,6 @@
             transform: translateY(-2px);
         }
 
-        /* Main App */
         #main-app {
             display: none;
             flex-direction: column;
@@ -255,7 +253,6 @@
             transform: translateY(-1px);
         }
 
-        /* Chat Styles */
         .chat-box {
             display: flex;
             flex-direction: column;
@@ -303,7 +300,6 @@
             font-weight: bold;
         }
 
-        /* Error Display */
         .error-detail {
             background: rgba(248, 113, 113, 0.1);
             border-left: 4px solid var(--accent-red);
@@ -364,7 +360,6 @@
             border-radius: 2px;
         }
 
-        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -428,7 +423,6 @@
             color: var(--accent-yellow);
         }
 
-        /* Flashcards */
         .flashcard-container {
             perspective: 1000px;
             height: 250px;
@@ -502,7 +496,6 @@
         .srs-btn.medium { background: var(--accent-yellow); color: black; }
         .srs-btn.easy { background: var(--accent-green); color: black; }
 
-        /* Quiz */
         .quiz-option {
             background: var(--bg-primary);
             border: 2px solid var(--border-color);
@@ -623,7 +616,6 @@
         </nav>
 
         <main>
-            <!-- Conversation Tab -->
             <div id="chat" class="tab-content active">
                 <div class="card">
                     <h2>💬 Conversation Practice</h2>
@@ -632,7 +624,7 @@
                     </p>
                     <div class="chat-box" id="chat-messages">
                         <div class="msg ai">
-                            Hello! I'm your English tutor. Write something and I'll analyze your sentence structure, grammar, and vocabulary. Try: "How can I improve my English?"
+                            Hello! I'm your English tutor. Write something and I'll analyze your sentence structure, grammar, and vocabulary.
                         </div>
                     </div>
                     <textarea id="chat-input" placeholder="Type your message in English..."></textarea>
@@ -641,7 +633,6 @@
                 </div>
             </div>
 
-            <!-- Review Tab -->
             <div id="review" class="tab-content">
                 <div class="card">
                     <h2>📥 Import Conversation History</h2>
@@ -658,7 +649,6 @@
                 </div>
             </div>
 
-            <!-- Errors Tab -->
             <div id="errors" class="tab-content">
                 <div class="stats-grid">
                     <div class="stat-box">
@@ -683,7 +673,6 @@
                 </div>
             </div>
 
-            <!-- Flashcards Tab -->
             <div id="flashcards" class="tab-content">
                 <div class="card">
                     <h2>🧠 Spaced Repetition (SRS)</h2>
@@ -720,7 +709,6 @@
                 </div>
             </div>
 
-            <!-- Quiz Tab -->
             <div id="quiz" class="tab-content">
                 <div class="card">
                     <h2>🎯 Personalized Exercises</h2>
@@ -768,32 +756,170 @@
     };
 
     // ======================
-    // PROFESSIONAL GRAMMAR ENGINE
+    // EXPANDED ERROR DETECTION DATABASE
     // ======================
     
-    // False friends (Portuguese -> English)
-    const falseFriends = {
-        'estude': { correct: 'study', explanation: 'False friend: "estudar" in Portuguese is "study" in English, not "estude".' },
-        'estudar': { correct: 'study', explanation: 'False friend: "estudar" is "to study" in English.' },
-        'aprende': { correct: 'learn', explanation: 'False friend: "aprender" is "learn", not "aprende".' },
-        'entende': { correct: 'understand', explanation: 'False friend: "entender" is "understand", not "entende".' },
-        'faz': { correct: 'do/make', explanation: 'False friend: "fazer" is "do" or "make", not "faz".' },
-        'trabalha': { correct: 'work', explanation: 'False friend: "trabalhar" is "work", not "trabalha".' }
+    // Common spelling errors (expanded from real conversation analysis)
+    const spellingErrors = {
+        'everithing': 'everything',
+        'enotgh': 'enough',
+        'enoght': 'enough',
+        'chege': 'check',
+        'compleatly': 'completely',
+        'separatede': 'separated',
+        'strategie': 'strategy',
+        'nigth': 'night',
+        'wit': 'with',
+        'acess': 'access',
+        'lawer': 'lawyer',
+        'thinkg': 'thinking',
+        'issus': 'issues',
+        'sloowing': 'slowing',
+        'reflesh': 'refresh',
+        'alwys': 'always',
+        'materias': 'materials',
+        'witch': 'which',
+        'teh': 'the',
+        'recieve': 'receive',
+        'seperate': 'separate',
+        'definately': 'definitely',
+        'occured': 'occurred',
+        'untill': 'until',
+        'wierd': 'weird',
+        'thier': 'their',
+        'beleive': 'believe',
+        'goverment': 'government',
+        'enviroment': 'environment',
+        'tommorow': 'tomorrow',
+        'yesteday': 'yesterday',
+        'becuase': 'because',
+        'freind': 'friend',
+        'beleive': 'believe',
+        'calender': 'calendar',
+        'collegue': 'colleague',
+        'comming': 'coming',
+        'existance': 'existence',
+        'experiense': 'experience',
+        'independant': 'independent',
+        'knowlege': 'knowledge',
+        'liason': 'liaison',
+        'maintainance': 'maintenance',
+        'manoeuver': 'maneuver',
+        'millenium': 'millennium',
+        'noticable': 'noticeable',
+        'occurence': 'occurrence',
+        'persistant': 'persistent',
+        'posession': 'possession',
+        'preferance': 'preference',
+        'publically': 'publicly',
+        'refering': 'referring',
+        'rember': 'remember',
+        'resistence': 'resistance',
+        'rythm': 'rhythm',
+        'sieze': 'seize',
+        'supercede': 'supersede',
+        'suprise': 'surprise',
+        'tatoo': 'tattoo',
+        'tendancy': 'tendency',
+        'tommorrow': 'tomorrow',
+        'truely': 'truly',
+        'untill': 'until',
+        'wierd': 'weird',
+        'withold': 'withhold',
+        'writting': 'writing'
     };
 
-    // Question words analysis
+    // False friends and vocabulary errors (Portuguese-English)
+    const falseFriends = {
+        'gripe': { correct: 'flu', explanation: 'False friend: "gripe" in Portuguese is "flu" in English, not "gripe".' },
+        'estude': { correct: 'study', explanation: 'False friend: "estudar" is "study", not "estude".' },
+        'estudar': { correct: 'study', explanation: 'False friend: "estudar" is "to study".' },
+        'aprende': { correct: 'learn', explanation: 'False friend: "aprender" is "learn", not "aprende".' },
+        'entende': { correct: 'understand', explanation: 'False friend: "entender" is "understand".' },
+        'faz': { correct: 'do/make', explanation: 'False friend: "fazer" is "do" or "make".' },
+        'trabalha': { correct: 'work', explanation: 'False friend: "trabalhar" is "work".' },
+        'fly': { correct: 'flight', explanation: 'Context: "fly" is the verb (to fly). The noun is "flight" (e.g., "I hope your flight is good").' },
+        'actual': { correct: 'current', explanation: 'False friend: "atual" is "current", not "actual" (which means "real").' },
+        'pretend': { correct: 'intend', explanation: 'False friend: "pretender" is "intend", not "pretend" (which means "fingir").' },
+        'push': { correct: 'pull', explanation: 'Check context: "push" (empurrar) vs "pull" (puxar).' },
+        'compromiss': { correct: 'commitment', explanation: 'False friend: "compromisso" is "commitment", not "compromise" (acordo).'}
+    };
+
+    // Grammar structure errors
+    const grammarRules = [
+        {
+            id: 'since-for',
+            pattern: /\bsince\s+(\d+|two|three|four|five|six|seven|eight|nine|ten|many|several)\s+(years?|months?|weeks?|days?|hours?)/gi,
+            fix: (m) => m.replace(/\bsince\b/i, 'for'),
+            rule: 'Use "for" for periods of time (for two years), "since" for starting points (since 2020).'
+        },
+        {
+            id: 'he-she-have',
+            pattern: /\b(he|she|it)\s+have\b/gi,
+            fix: (m) => m.replace(/\bhave\b/i, 'has'),
+            rule: 'Third person singular (he/she/it) uses "has", not "have".'
+        },
+        {
+            id: 'much-many',
+            pattern: /\bmuch\s+(people|things|times|friends|students|books)/gi,
+            fix: (m) => m.replace(/\bmuch\b/i, 'many'),
+            rule: 'Use "many" for countable nouns (many people), "much" for uncountable (much water).'
+        },
+        {
+            id: 'to-infinitive',
+            pattern: /\bto\s+(went|ate|studied|worked|played|bought|made|took|saw|came|did|got)/gi,
+            fix: (m) => {
+                const base = m.replace(/\bto\s+/i, '');
+                const irregular = { 'went': 'go', 'ate': 'eat', 'studied': 'study', 'worked': 'work', 'played': 'play', 'bought': 'buy', 'made': 'make', 'took': 'take', 'saw': 'see', 'came': 'come', 'did': 'do', 'got': 'get' };
+                return 'to ' + (irregular[base.toLowerCase()] || base);
+            },
+            rule: 'After "to" (infinitive), use the base form: "to go", not "to went".'
+        },
+        {
+            id: 'double-negative',
+            pattern: /\b(don't|doesn't|didn't)\s+(know|understand|have|like|want|need)\s+nothing\b/gi,
+            fix: (m) => m.replace(/\bnothing\b/i, 'anything'),
+            rule: 'Avoid double negatives. Use "anything" in negative sentences.'
+        },
+        {
+            id: 'will-can',
+            pattern: /\bwill\s+can\b/gi,
+            fix: (m) => 'can',
+            rule: 'Cannot use two modals together. Use "can" (present) or "will be able to" (future).'
+        },
+        {
+            id: 'are-have',
+            pattern: /\bare\s+have\b/gi,
+            fix: (m) => 'have',
+            rule: 'Cannot use "are" + "have". Use "we have" or "we are having" (for temporary situations).'
+        },
+        {
+            id: 'dont-has',
+            pattern: /\bdon't\s+has\b/gi,
+            fix: (m) => "doesn't have",
+            rule: 'Use "doesn\'t have" for third person, not "don\'t has".'
+        },
+        {
+            id: 'they-has',
+            pattern: /\bthey\s+has\b/gi,
+            fix: (m) => 'they have',
+            rule: 'Use "have" with "they", not "has".'
+        }
+    ];
+
+    // Question structure analysis
     function analyzeQuestionStructure(text) {
         const errors = [];
         const lowerText = text.toLowerCase().trim();
         
         // Check for "who to" when should be "how to"
-        if (lowerText.match(/\bwho\s+to\s+(study|learn|improve|do|make|go)/i)) {
+        if (lowerText.match(/\bwho\s+to\s+(study|learn|improve|do|make|go|check)/i)) {
             errors.push({
                 type: 'structure',
                 original: 'who to',
                 corrected: 'how to',
                 rule: 'Use "How" for questions about methods/procedures, not "Who". "Who" is for people.',
-                explanation: 'You asked about a method (studying better), so use "How can I..." or "How do I..."'
+                explanation: 'You asked about a method, so use "How can I..." or "How do I..."'
             });
         }
         
@@ -817,7 +943,21 @@
         let allErrors = [];
         const lowerText = text.toLowerCase();
         
-        // 1. Check false friends
+        // 1. Check spelling errors
+        Object.keys(spellingErrors).forEach(word => {
+            const regex = new RegExp(`\\b${word}\\b`, 'gi');
+            if (regex.test(text)) {
+                allErrors.push({
+                    type: 'spelling',
+                    original: word,
+                    corrected: spellingErrors[word],
+                    rule: `Spelling error. The correct spelling is "${spellingErrors[word]}".`,
+                    explanation: `Correct spelling: "${spellingErrors[word]}"`
+                });
+            }
+        });
+        
+        // 2. Check false friends
         Object.keys(falseFriends).forEach(word => {
             const regex = new RegExp(`\\b${word}\\b`, 'gi');
             if (regex.test(text)) {
@@ -831,73 +971,21 @@
             }
         });
         
-        // 2. Check question structure
+        // 3. Check question structure
         allErrors = allErrors.concat(analyzeQuestionStructure(text));
         
-        // 3. Grammar rules
-        const grammarChecks = [
-            {
-                pattern: /\bsince\s+(\d+|two|three|four|five|six|seven|eight|nine|ten|many|several)\s+(years?|months?|weeks?|days?|hours?)/gi,
-                fix: (m) => m.replace(/\bsince\b/i, 'for'),
-                rule: 'Use "for" for periods of time (for two years), "since" for starting points (since 2020).'
-            },
-            {
-                pattern: /\b(he|she|it)\s+have\b/gi,
-                fix: (m) => m.replace(/\bhave\b/i, 'has'),
-                rule: 'Third person singular (he/she/it) uses "has", not "have".'
-            },
-            {
-                pattern: /\bmuch\s+(people|things|times|friends|students|books)/gi,
-                fix: (m) => m.replace(/\bmuch\b/i, 'many'),
-                rule: 'Use "many" for countable nouns (many people), "much" for uncountable (much water).'
-            },
-            {
-                pattern: /\bto\s+(went|ate|studied|worked|played|bought|made|took|saw|came|did|got)/gi,
-                fix: (m) => {
-                    const base = m.replace(/\bto\s+/i, '');
-                    const irregular = { 'went': 'go', 'ate': 'eat', 'studied': 'study', 'worked': 'work', 'played': 'play', 'bought': 'buy', 'made': 'make', 'took': 'take', 'saw': 'see', 'came': 'come', 'did': 'do', 'got': 'get' };
-                    return 'to ' + (irregular[base.toLowerCase()] || base);
-                },
-                rule: 'After "to" (infinitive), use the base form: "to go", not "to went".'
-            },
-            {
-                pattern: /\b(don't|doesn't|didn't)\s+(know|understand|have|like|want|need)\s+nothing\b/gi,
-                fix: (m) => m.replace(/\bnothing\b/i, 'anything'),
-                rule: 'Avoid double negatives. Use "anything" in negative sentences.'
-            }
-        ];
-        
-        grammarChecks.forEach(check => {
-            const matches = text.match(check.pattern);
+        // 4. Check grammar rules
+        grammarRules.forEach(rule => {
+            const matches = text.match(rule.pattern);
             if (matches) {
                 matches.forEach(match => {
                     allErrors.push({
                         type: 'grammar',
                         original: match,
-                        corrected: check.fix(match),
-                        rule: check.rule,
-                        explanation: check.rule
+                        corrected: rule.fix(match),
+                        rule: rule.rule,
+                        explanation: rule.rule
                     });
-                });
-            }
-        });
-        
-        // 4. Common spelling errors
-        const typos = {
-            'teh': 'the', 'recieve': 'receive', 'seperate': 'separate',
-            'definately': 'definitely', 'occured': 'occurred', 'untill': 'until',
-            'wierd': 'weird', 'thier': 'their', 'beleive': 'believe'
-        };
-        
-        Object.keys(typos).forEach(typo => {
-            const regex = new RegExp(`\\b${typo}\\b`, 'gi');
-            if (regex.test(text)) {
-                allErrors.push({
-                    type: 'spelling',
-                    original: typo,
-                    corrected: typos[typo],
-                    rule: `Spelling error. The correct spelling is "${typos[typo]}".`,
-                    explanation: `Correct spelling: "${typos[typo]}"`
                 });
             }
         });
@@ -911,11 +999,8 @@
         let highlighted = original;
         
         errors.forEach(err => {
-            // Replace in corrected version
             const regex = new RegExp(err.original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
             corrected = corrected.replace(regex, err.corrected);
-            
-            // Highlight in display version
             highlighted = highlighted.replace(regex, `<span class="word-error">${err.original}</span> → <span class="word-correction">${err.corrected}</span>`);
         });
         
@@ -987,17 +1072,14 @@
 
         const chatBox = document.getElementById('chat-messages');
         
-        // Add user message
         const userMsg = document.createElement('div');
         userMsg.className = 'msg user';
         userMsg.textContent = text;
         chatBox.appendChild(userMsg);
         
-        // Analyze
         const errors = analyzeText(text);
         const { corrected, highlighted } = generateCorrectedText(text, errors);
         
-        // Save errors
         if (errors.length > 0) {
             errors.forEach(err => {
                 userData.errors.unshift({
@@ -1012,7 +1094,6 @@
                     userData.patterns[err.original]++;
                 }
                 
-                // Add to flashcards if vocabulary or structure
                 if (err.type === 'vocabulary' || err.type === 'structure') {
                     addFlashcard(err);
                 }
@@ -1024,7 +1105,6 @@
         userData.stats.totalMessages++;
         saveUserData();
         
-        // AI Response with detailed analysis
         setTimeout(() => {
             const aiMsg = document.createElement('div');
             aiMsg.className = 'msg ai';
@@ -1032,13 +1112,11 @@
             if (errors.length > 0) {
                 let analysisHTML = `<div style="margin-bottom: 12px;"><strong>Found ${errors.length} error(s):</strong></div>`;
                 
-                // Show corrected sentence with highlights
                 analysisHTML += `<div style="background: var(--bg-primary); padding: 12px; border-radius: 8px; margin-bottom: 12px;">`;
                 analysisHTML += `<div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px;">Your sentence:</div>`;
                 analysisHTML += `<div style="line-height: 1.6;">${highlighted}</div>`;
                 analysisHTML += `</div>`;
                 
-                // Detailed error breakdown
                 errors.forEach((err, idx) => {
                     analysisHTML += `
                         <div class="error-detail">
@@ -1052,12 +1130,11 @@
                     `;
                 });
                 
-                // Structure tip
                 if (errors.some(e => e.type === 'structure')) {
                     analysisHTML += `
                         <div class="structure-analysis">
                             <h4>📐 Structure Tip</h4>
-                            <p>English questions follow the pattern: <strong>Question Word + Auxiliary + Subject + Verb</strong></p>
+                            <p>English questions follow: <strong>Question Word + Auxiliary + Subject + Verb</strong></p>
                             <p>Example: "How <strong>can</strong> I <strong>study</strong> better?"</p>
                         </div>
                     `;
@@ -1065,7 +1142,6 @@
                 
                 aiMsg.innerHTML = analysisHTML;
                 
-                // Add badge to user message
                 const badge = document.createElement('div');
                 badge.className = 'correction-badge';
                 badge.textContent = errors.length;
@@ -1089,27 +1165,43 @@
     }
 
     // ======================
-    // HISTORY IMPORT
+    // HISTORY IMPORT (FIXED)
     // ======================
     function processHistory() {
         const input = document.getElementById('history-input');
         const text = input.value.trim();
         if (!text || !currentUser) return;
 
-        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 5);
+        // Better sentence splitting (handles WhatsApp format, line breaks)
+        const sentences = text
+            .split(/[.!?]+|\n+/)
+            .map(s => s.trim())
+            .filter(s => s.length > 3);
+        
         let allErrors = [];
         
         sentences.forEach(sentence => {
-            const errors = analyzeText(sentence.trim());
+            const errors = analyzeText(sentence);
             if (errors.length > 0) {
                 allErrors = allErrors.concat(errors.map(e => ({
                     ...e,
-                    context: sentence.trim().slice(0, 100)
+                    context: sentence.slice(0, 100)
                 })));
             }
         });
         
+        // Remove duplicates based on original error + context
+        const uniqueErrors = [];
+        const seen = new Set();
         allErrors.forEach(err => {
+            const key = err.original + err.context;
+            if (!seen.has(key)) {
+                seen.add(key);
+                uniqueErrors.push(err);
+            }
+        });
+        
+        uniqueErrors.forEach(err => {
             userData.errors.unshift({
                 ...err,
                 timestamp: Date.now(),
@@ -1128,25 +1220,38 @@
         document.getElementById('history-results').style.display = 'block';
         const resultsDiv = document.getElementById('history-analysis');
         
-        if (allErrors.length > 0) {
-            let html = `<p><strong>${allErrors.length} errors found</strong> in the analyzed text:</p><br>`;
-            allErrors.slice(0, 10).forEach(err => {
-                html += `
-                    <div class="error-item">
-                        <span class="badge ${err.type}">${err.type}</span>
-                        <div style="margin-top:8px;">Error: <span class="original">${err.original}</span></div>
-                        <div>Correction: <span class="corrected">${err.corrected}</span></div>
-                        <div class="rule"><b>Rule:</b> ${err.rule}</div>
-                    </div>
-                `;
+        if (uniqueErrors.length > 0) {
+            let html = `<p><strong>${uniqueErrors.length} unique errors found</strong> in ${sentences.length} sentences analyzed:</p><br>`;
+            
+            // Group by type
+            const byType = {};
+            uniqueErrors.forEach(err => {
+                if (!byType[err.type]) byType[err.type] = [];
+                byType[err.type].push(err);
             });
+            
+            Object.keys(byType).forEach(type => {
+                html += `<h3 style="color: var(--accent-highlight); margin: 16px 0 8px 0; text-transform: capitalize;">${type} errors (${byType[type].length})</h3>`;
+                byType[type].slice(0, 5).forEach(err => {
+                    html += `
+                        <div class="error-item">
+                            <div>Error: <span class="original">${err.original}</span> → <span class="corrected">${err.corrected}</span></div>
+                            <div class="rule"><b>Context:</b> "${err.context}..."</div>
+                        </div>
+                    `;
+                });
+                if (byType[type].length > 5) {
+                    html += `<p style="color:var(--text-muted); font-size:0.85rem;">...and ${byType[type].length - 5} more ${type} errors.</p>`;
+                }
+            });
+            
             resultsDiv.innerHTML = html;
         } else {
             resultsDiv.innerHTML = '<p style="color:var(--accent-green);">✅ No errors found! Your text is excellent.</p>';
         }
         
         input.value = '';
-        alert(`Analysis complete! ${allErrors.length} errors saved to cloud.`);
+        alert(`Analysis complete! Found ${uniqueErrors.length} unique errors in ${sentences.length} sentences.`);
     }
 
     // ======================
@@ -1250,7 +1355,7 @@
                     explanation: 'Third person singular (she/he/it) adds -s: "She goes"'
                 },
                 {
-                    question: 'Which sentence is correct?',
+                    question: 'Which is correct?',
                     options: [
                         'How can I study better?',
                         'Who to study better?',
