@@ -5,31 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>English Cloud Lab - Aprendizado Adaptativo</title>
     
-    <!-- Firebase SDK (versão compatível) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
+    <!-- Fonte Bookerly (Open Source) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bookerly-font@1.0.0/bookerly.css">
+    
     <style>
         :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #334155;
-            --accent-blue: #38bdf8;
-            --accent-purple: #a78bfa;
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-card: #111111;
+            --accent-highlight: #b8ff1e;
+            --text-main: #fefffd;
+            --text-muted: #b8b8b8;
+            --border-color: #333333;
             --accent-green: #4ade80;
             --accent-red: #f87171;
             --accent-yellow: #fbbf24;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #475569;
+            --accent-purple: #a78bfa;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Bookerly', Georgia, serif;
         }
 
         body {
@@ -59,6 +62,7 @@
             min-height: 100vh;
             padding: 20px;
             text-align: center;
+            background: var(--bg-primary);
         }
 
         .auth-box {
@@ -71,7 +75,7 @@
         }
 
         .auth-box h1 {
-            color: var(--accent-blue);
+            color: var(--accent-highlight);
             margin-bottom: 10px;
             font-size: 1.8rem;
         }
@@ -83,8 +87,8 @@
         }
 
         .btn-google {
-            background: #fff;
-            color: #333;
+            background: var(--text-main);
+            color: #000;
             border: none;
             padding: 12px 24px;
             border-radius: 8px;
@@ -96,10 +100,11 @@
             gap: 10px;
             width: 100%;
             font-size: 1rem;
-            transition: transform 0.2s;
+            transition: all 0.2s;
         }
 
         .btn-google:hover {
+            background: var(--accent-highlight);
             transform: translateY(-2px);
         }
 
@@ -112,7 +117,7 @@
 
         header {
             padding: 15px 20px;
-            background-color: #0f172a;
+            background-color: var(--bg-primary);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
@@ -121,7 +126,7 @@
 
         header h1 {
             font-size: 1.2rem;
-            color: var(--accent-blue);
+            color: var(--accent-highlight);
         }
 
         .user-info {
@@ -136,17 +141,17 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: var(--accent-purple);
+            background: var(--accent-highlight);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #000;
             font-weight: bold;
         }
 
         nav {
             display: flex;
-            background-color: #0f172a;
+            background-color: var(--bg-primary);
             border-bottom: 1px solid var(--border-color);
             overflow-x: auto;
         }
@@ -166,9 +171,9 @@
         }
 
         .tab-btn.active {
-            color: var(--accent-blue);
-            border-bottom-color: var(--accent-blue);
-            background-color: rgba(56, 189, 248, 0.05);
+            color: var(--accent-highlight);
+            border-bottom-color: var(--accent-highlight);
+            background-color: rgba(184, 255, 30, 0.1);
         }
 
         main {
@@ -176,6 +181,7 @@
             padding: 20px;
             padding-bottom: 80px;
             overflow-y: auto;
+            background: var(--bg-secondary);
         }
 
         .tab-content {
@@ -203,7 +209,7 @@
         .card h2 {
             font-size: 1.1rem;
             margin-bottom: 12px;
-            color: var(--accent-blue);
+            color: var(--accent-highlight);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -228,12 +234,12 @@
 
         textarea:focus, input:focus {
             outline: none;
-            border-color: var(--accent-blue);
+            border-color: var(--accent-highlight);
         }
 
         button.btn-primary {
-            background-color: var(--accent-blue);
-            color: #0f172a;
+            background-color: var(--accent-highlight);
+            color: #000;
             border: none;
             padding: 12px 20px;
             border-radius: 8px;
@@ -241,11 +247,12 @@
             cursor: pointer;
             width: 100%;
             font-size: 0.95rem;
-            transition: opacity 0.2s;
+            transition: all 0.2s;
         }
 
         button.btn-primary:hover {
             opacity: 0.9;
+            transform: translateY(-1px);
         }
 
         button.btn-secondary {
@@ -281,23 +288,25 @@
         }
 
         .msg.user {
-            background-color: #0284c7;
+            background-color: var(--accent-highlight);
             align-self: flex-end;
-            color: white;
+            color: #000;
+            font-weight: 500;
         }
 
         .msg.ai {
             background-color: var(--bg-card);
             align-self: flex-start;
             border: 1px solid var(--border-color);
+            color: var(--text-main);
         }
 
         .msg .correction-badge {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: var(--accent-yellow);
-            color: #000;
+            background: var(--accent-red);
+            color: #fff;
             font-size: 0.7rem;
             padding: 2px 6px;
             border-radius: 10px;
@@ -305,7 +314,7 @@
         }
 
         .error-inline {
-            background: rgba(248, 113, 113, 0.2);
+            background: rgba(248, 113, 113, 0.3);
             border-bottom: 2px solid var(--accent-red);
             cursor: help;
             padding: 0 2px;
@@ -331,7 +340,7 @@
         .stat-number {
             font-size: 1.6rem;
             font-weight: bold;
-            color: var(--accent-blue);
+            color: var(--accent-highlight);
         }
 
         .stat-label {
@@ -341,7 +350,7 @@
         }
 
         .error-item {
-            background-color: rgba(248, 113, 113, 0.05);
+            background-color: rgba(248, 113, 113, 0.1);
             border-left: 4px solid var(--accent-red);
             padding: 12px;
             border-radius: 4px;
@@ -406,7 +415,7 @@
             align-items: center;
             justify-content: center;
             background: var(--bg-card);
-            border: 2px solid var(--accent-purple);
+            border: 2px solid var(--accent-highlight);
             border-radius: 16px;
             padding: 20px;
             text-align: center;
@@ -421,7 +430,7 @@
         .flashcard-word {
             font-size: 1.8rem;
             font-weight: bold;
-            color: var(--accent-blue);
+            color: var(--accent-highlight);
             margin-bottom: 10px;
         }
 
@@ -459,16 +468,17 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
+            color: var(--text-main);
         }
 
         .quiz-option:hover {
-            border-color: var(--accent-blue);
-            background: rgba(56, 189, 248, 0.1);
+            border-color: var(--accent-highlight);
+            background: rgba(184, 255, 30, 0.1);
         }
 
         .quiz-option.selected {
-            border-color: var(--accent-blue);
-            background: rgba(56, 189, 248, 0.2);
+            border-color: var(--accent-highlight);
+            background: rgba(184, 255, 30, 0.2);
         }
 
         .quiz-option.correct {
@@ -491,7 +501,7 @@
 
         .progress-fill {
             height: 100%;
-            background: var(--accent-blue);
+            background: var(--accent-highlight);
             transition: width 0.3s;
         }
 
@@ -517,7 +527,7 @@
             height: 20px;
             border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
-            border-top-color: #fff;
+            border-top-color: var(--accent-highlight);
             animation: spin 1s ease-in-out infinite;
         }
 
@@ -599,14 +609,14 @@
                 <div class="card">
                     <h2>💬 Prática de Conversação</h2>
                     <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
-                        Escreva em inglês. O modo híbrido destaca erros simples automaticamente e permite análise detalhada ao clicar nas palavras marcadas.
+                        Escreva em inglês. Clique em "Enviar e Analisar" para ver a correção detalhada dos erros.
                     </p>
                     <div class="chat-box" id="chat-messages">
                         <div class="msg ai">
                             Hello! I'm your English tutor. Write something in English and I'll help you improve. Try to write about your daily routine!
                         </div>
                     </div>
-                    <textarea id="chat-input" placeholder="Type your message in English..." oninput="realtimeCheck()"></textarea>
+                    <textarea id="chat-input" placeholder="Type your message in English..."></textarea>
                     <div id="inline-corrections" style="margin-bottom: 12px;"></div>
                     <button class="btn-primary" onclick="sendMessage()">Enviar e Analisar</button>
                 </div>
@@ -903,7 +913,6 @@
                 const data = doc.data();
                 userData = { ...userData, ...data };
             } else {
-                // Primeiro acesso - criar documento
                 saveUserData();
             }
             updateUI();
@@ -973,28 +982,8 @@
     }
 
     function realtimeCheck() {
-        const text = document.getElementById('chat-input').value;
-        const container = document.getElementById('inline-corrections');
-        
-        if (text.length < 3) {
-            container.innerHTML = '';
-            return;
-        }
-        
-        const errors = analyzeText(text);
-        
-        if (errors.length > 0) {
-            let html = '<div style="background: rgba(251,191,36,0.1); padding: 10px; border-radius: 6px; border-left: 3px solid var(--accent-yellow); font-size: 0.85rem;">';
-            html += '<strong>⚠️ Detectado:</strong> ';
-            errors.forEach((err, idx) => {
-                html += `<span class="error-inline" onclick="showCorrectionDetail(${idx})" style="margin-right: 8px; cursor: pointer;">${err.original}</span>`;
-            });
-            html += '</div>';
-            container.innerHTML = html;
-            container.dataset.errors = JSON.stringify(errors);
-        } else {
-            container.innerHTML = '';
-        }
+        // Função desativada - correção agora só acontece no envio
+        return;
     }
 
     function showCorrectionDetail(idx) {
@@ -1333,7 +1322,7 @@
         document.getElementById('quiz-area').innerHTML = `
             <div style="text-align:center; padding:40px;">
                 <div style="font-size:4rem; margin-bottom:20px;">${percentage >= 70 ? '🎉' : '💪'}</div>
-                <h2 style="color:var(--accent-blue); margin-bottom:10px;">Quiz Complete!</h2>
+                <h2 style="color:var(--accent-highlight); margin-bottom:10px;">Quiz Complete!</h2>
                 <p style="font-size:1.2rem; margin-bottom:20px;">Score: ${quizScore}/${currentQuiz.length} (${percentage}%)</p>
                 <p style="color:var(--text-muted); margin-bottom:20px;">
                     ${percentage >= 70 ? 'Great job! You\'re ready for the next level.' : 'Keep practicing! Review your flashcards and try again.'}
